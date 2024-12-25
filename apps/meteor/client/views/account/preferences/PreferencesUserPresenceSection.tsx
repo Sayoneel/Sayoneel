@@ -4,12 +4,13 @@ import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import IdleTimeEditor from './IdleTimeEditor';
+
 const PreferencesUserPresenceSection = () => {
 	const { t } = useTranslation();
-	const { register, control } = useFormContext();
+	const { control } = useFormContext();
 
 	const enableAutoAwayId = useUniqueId();
-	const idleTimeLimit = useUniqueId();
 
 	return (
 		<AccordionItem title={t('User_Presence')}>
@@ -27,10 +28,12 @@ const PreferencesUserPresenceSection = () => {
 					</FieldRow>
 				</Field>
 				<Field>
-					<FieldLabel htmlFor={idleTimeLimit}>{t('Idle_Time_Limit')}</FieldLabel>
-					<FieldRow>
-						<NumberInput id={idleTimeLimit} {...register('idleTimeLimit')} />
-					</FieldRow>
+					<FieldLabel>{t('Idle_Time_Limit')}</FieldLabel>
+					<Controller
+						name='idleTimeLimit'
+						control={control}
+						render={({ field: { onChange } }) => <IdleTimeEditor onChangeTime={onChange} />}
+					/>
 				</Field>
 			</FieldGroup>
 		</AccordionItem>
